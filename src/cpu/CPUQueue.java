@@ -3,19 +3,28 @@ package cpu;
 import java.util.LinkedList;
 
 /**
- * Created by Artem on 29.06.16.
+ * Class contains LinkedList which acts as queue
  */
 public class CPUQueue {
-    LinkedList<CPU> processQueue;
+    private LinkedList<CPU> processQueue;
 
     public CPUQueue() {
         processQueue=new LinkedList<>();
     }
 
+    /**
+     * Method wrapper to get processQueue size
+     * @return processQueue elements amount
+     */
     public int getSize(){
         return processQueue.size();
     }
 
+    /**
+     * Method wrapper to add element to the queue
+     * @param process
+     * @return  true if adding was successful, otherwise false
+     */
     public boolean add(CPU process){
         try{
             processQueue.add(process);
@@ -25,6 +34,10 @@ public class CPUQueue {
         return true;
     }
 
+    /**
+     * Method wrapper to get process from processQueue
+     * @return CPU object if processQueue has elements, otherwise null
+     */
     public CPU getProcess(){
         if(processQueue.size()>0){
             return processQueue.pollFirst();

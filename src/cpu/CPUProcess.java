@@ -1,7 +1,8 @@
 package cpu;
 
 /**
- * Created by Artem on 29.06.16.
+ * Class contains two queues and two static variables that are borders for time waiting and three variable for
+ * statistics counting and method to generate process and take process from queue
  */
 public class CPUProcess extends Thread{
     private CPUQueue queue1;
@@ -9,6 +10,7 @@ public class CPUProcess extends Thread{
     public static int lowerBorder=50;
     public static int upperBorder=100;
 
+    private int iterationAmount=100;
     private int processTakeCounter=0;
     private int processTakeFrom1QueueCounter=0;
 
@@ -17,6 +19,11 @@ public class CPUProcess extends Thread{
         this.queue2 = new CPUQueue();
     }
 
+    /**
+     * Method generates new process- create class CPU object than decide in which queue put it on the size of
+     * this queue. Put in queue which size is less
+     * @return true if putting was successful, otherwise false
+     */
     public boolean generateProcess(){
         CPU process=new CPU();
         synchronized (process){
@@ -39,10 +46,17 @@ public class CPUProcess extends Thread{
         return true;
     }
 
+    /**
+     * Method takes class CPU object from queue which size is bigger. Also in method counted statistics for
+     * iterationAmount iterations
+     * @return CPU object
+     */
     public CPU takeProcess(){
-        if(processTakeCounter>100){
-            System.out.println(processTakeFrom1QueueCounter+" "+processTakeCounter);
-            System.out.println((double) processTakeFrom1QueueCounter/processTakeCounter*100);
+        if(processTakeCounter>iterationAmount){
+            System.out.println("From queue1 has been taken="+ processTakeFrom1QueueCounter+
+                    "      All taken process amount=" +processTakeCounter);
+            System.out.format("Percentage %2.1f",(double) processTakeFrom1QueueCounter/processTakeCounter*100);
+            System.out.println();
             System.exit(0);
         }
         processTakeCounter++;
