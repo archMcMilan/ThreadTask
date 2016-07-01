@@ -6,7 +6,7 @@ import java.util.LinkedList;
  * Class contains LinkedList which acts as queue
  */
 public class CPUQueue {
-    private LinkedList<CPU> processQueue;
+    private LinkedList<Process> processQueue;
 
     public CPUQueue() {
         processQueue=new LinkedList<>();
@@ -16,7 +16,7 @@ public class CPUQueue {
      * Method wrapper to get processQueue size
      * @return processQueue elements amount
      */
-    public int getSize(){
+    public synchronized int getSize(){
         return processQueue.size();
     }
 
@@ -25,7 +25,7 @@ public class CPUQueue {
      * @param process
      * @return  true if adding was successful, otherwise false
      */
-    public boolean add(CPU process){
+    public synchronized boolean add(Process process){
         try{
             processQueue.add(process);
         }catch (Exception e){
@@ -36,9 +36,9 @@ public class CPUQueue {
 
     /**
      * Method wrapper to get process from processQueue
-     * @return CPU object if processQueue has elements, otherwise null
+     * @return Process object if processQueue has elements, otherwise null
      */
-    public CPU getProcess(){
+    public synchronized Process getProcess(){
         if(processQueue.size()>0){
             return processQueue.pollFirst();
         }else{
