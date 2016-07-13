@@ -28,6 +28,7 @@ public class CPUQueue {
     public synchronized boolean add(Process process){
         try{
             processQueue.add(process);
+            this.notify();
         }catch (Exception e){
             return false;
         }
@@ -39,11 +40,19 @@ public class CPUQueue {
      * @return Process object if processQueue has elements, otherwise null
      */
     public synchronized Process getProcess(){
-        if(processQueue.size()>0){
-            return processQueue.pollFirst();
-        }else{
-            return null;
+//        if(processQueue.size()>0){
+//            return processQueue.pollFirst();
+//        }else{
+//            return null;
+//        }
+        while (processQueue.size()==0){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+        return processQueue.pollFirst();
 
     }
 

@@ -21,7 +21,7 @@ public class CPU extends Thread {
      * iterationAmount iterations
      * @return Process object
      */
-    public Process takeProcess(){
+    public synchronized Process takeProcess(){
         if(processTakeCounter>iterationAmount){
             System.out.println("From queue1 has been taken="+ processTakeFrom1QueueCounter+
                     "      All taken process amount=" +processTakeCounter);
@@ -32,6 +32,14 @@ public class CPU extends Thread {
         processTakeCounter++;
         System.out.println();
         System.out.println("Queue1 size="+queue1.getSize()+"       Queue2 size="+queue2.getSize());
+//        while(queue1.getSize()==0 && queue2.getSize()==0){
+//            System.out.println("waiting");
+//            try {
+//                this.wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
         if(queue1.getSize()>=queue2.getSize()){
             System.out.print("Take from queue1    ");
             processTakeFrom1QueueCounter++;
@@ -46,9 +54,6 @@ public class CPU extends Thread {
     public void run() {
         while(true){
             Process process=takeProcess();
-            if(process==null){
-                continue;
-            }
             System.out.println(process.getProcessName());
             process.execute();
         }

@@ -14,7 +14,7 @@ public class Runner {
         CPUProcess cpuProcess=new CPUProcess(queue1,queue2);
         cpuProcess.start();
         try {
-            Thread.sleep(100);
+            Thread.sleep(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
